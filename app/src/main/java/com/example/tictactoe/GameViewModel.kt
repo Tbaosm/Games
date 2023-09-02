@@ -1,10 +1,12 @@
 package com.example.tictactoe
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 
 class GameViewModel: ViewModel() {
-    var state = mutableStateOf(GameState())
+    var state by mutableStateOf(GameState())
 
     val boardItems: MutableMap<Int, BoardCellValue> = mutableMapOf(
         1 to BoardCellValue.NONE,
@@ -20,13 +22,33 @@ class GameViewModel: ViewModel() {
     fun onAction(action: UserAction) {
         when(action){
             is UserAction.BoardTapped -> {
-                TODO()
+                addValueToBoard(action.cellNo)
             }
             UserAction.PlayAgainButtonClicked -> {
 
             }
         }
 
+
+    }
+
+    private fun addValueToBoard(cellNo: Int) {
+        if (boardItems[cellNo] != BoardCellValue.NONE) return
+        if(state.currentTurn == BoardCellValue.CIRCLE){
+            boardItems[cellNo] = BoardCellValue.CIRCLE
+            state = state.copy(
+                hintText = "Player 'X' turn",
+                currentTurn = BoardCellValue.CROSS
+
+            )
+        }
+        else if (state.currentTurn == BoardCellValue.CROSS){
+            boardItems[cellNo] = BoardCellValue.CROSS
+            state = state.copy(
+                hintText = "Player 'O' turn",
+                currentTurn = BoardCellValue.CIRCLE
+            )
+        }
 
     }
 }

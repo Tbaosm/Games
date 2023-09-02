@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TicTacToeTheme {
                 // A surface container using the 'background' color from the theme
-                GameScreen()
+                GameScreen(viewModel = GameViewModel())
             }
         }
     }
